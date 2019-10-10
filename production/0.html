@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title> Chart </title>
+
+    <!-- Bootstrap -->
+    <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
+
+    <!-- Custom styling plus plugins -->
+    <link href="../build/css/custom.min.css" rel="stylesheet">
+
+    <!-- jQuery -->
+    <script src="../vendors/jquery/dist/jquery.min.js"></script>
+    <script src="../build/js/api.js"></script>
+    <script src="../build/js/custom.min.js"></script>
+
+    <script>
+      var isCustomer = true;
+      var timerFlag = true;
+
+      getUserInfo(isCustomer);
+
+      var myInterval = setInterval(function(){
+        if(!timerFlag){
+          console.log("data loading is completed");        
+          var u_splash = document.getElementById('u_splash');
+          u_splash.style.display = 'none';          
+          killfoo();
+        }
+      }, 10);
+
+      var killfoo = function(){
+        clearInterval(myInterval);
+      };
+    </script>
+
+  </head>
+
+  <body class="nav-md">
+    <div id="u_splash">
+
+    </div>
+    <div class="body" id="u_body">      
+      <!-- top tiles -->
+      <div class="websiteHeader">
+        <div class="container ">
+          <div class="x_title">
+            <h2>About Me</h2>
+          </div>
+          <div class="row tile_count">
+            <div class="col-md-4 col-sm-4 col-xs-12 tile_stats_count">
+              <span class="count_top"><i class="fa fa-building"></i> Company Name</span>
+              <div class="count" id="u_companyName"></div>
+            </div>
+            <div class="col-md-8 col-sm-8 col-xs-12 tile_stats_count">
+              <span class="count_top"><i class="fa fa-map-marker"></i> Address</span>
+              <div class="count count_address" id="u_address"></div>
+            </div>
+          </div>
+          <div class="row tile_count">
+            <div class="col-md-3 col-sm-4 col-xs-12 tile_stats_count">
+                <span class="count_top"><i class="fa fa-paper-plane"></i> Website</span>
+                <div class="count" id="u_websiteName"></div>
+                <span class="count_bottom"><i class="green">Category:</i> <span id="u_category"></span></span>
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+              <span class="count_top"><i class="fa fa-star"></i> Google Rating</span>
+              <div class="count" id="u_googleRating"></div>
+              <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>1% </i> From last Week</span>
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
+              <span class="count_top"><i class="fa fa-google"></i> Google Review</span>
+              <div class="count" id="u_googleReview"></div>
+              <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>4% </i> From last Week</span>
+            </div>                                       
+          </div>
+        </div>
+      </div>
+      <!-- /top tiles -->
+
+      <!-- rating -->        
+      <div class="x_panel bg-gray">
+        <div class="container">
+          <div class="x_title">
+            <h2>Rating</h2>
+          </div>
+
+          <table class="table table-striped" id="u_rating">
+            <thead>
+              <tr>
+                <th>Website</th>
+                <th>Google</th>
+                <th>Facebook</th>
+                <th>Yelp</th>                      
+              </tr>
+            </thead>
+            <tbody>              
+            </tbody>
+          </table>
+        </div>          
+      </div>        
+      <!-- rating end -->
+
+      <!-- follower single -->
+      <div class="container">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2>Follower</h2>
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+            <div id="follower_chart" style="height:350px;"></div>
+          </div>
+        </div>  
+      </div>
+
+      <!-- follower multiple -->
+      <div class="container" id="multi_follower">          
+        <div class="x_panel">
+           <div class="x_content">
+              <button type="button" class="btn btn-round btn-default" id="u_before_follower"><i class="fa fa-angle-left"></i></button>
+              <button type="button" class="btn btn-round btn-default" id="u_next_follower"><i class="fa fa-angle-right"></i></button>
+           </div>
+
+          <div class="x_content">
+              <canvas id="line-chart" width="800" height="350"></canvas>
+          </div>
+        </div>  
+      </div>
+      
+      
+      <!-- Keyword -->
+      <div class="x_panel bg-gray">
+        <div class="container">
+          <div class="x_title">
+            <h2>Keywords</h2>            
+            <div class="clearfix"></div>              
+          </div>
+
+          <div class="x_content">
+              <button type="button" class="btn btn-round btn-default" id="u_before_keyword"><i class="fa fa-angle-left"></i></button>
+              <button type="button" class="btn btn-round btn-default" id="u_next_keyword"><i class="fa fa-angle-right"></i></button>
+          </div>
+
+          <div class="x_content">
+            <div id="echart_donut" style="height:350px;"></div>
+          </div>
+        </div>
+      </div>
+      <!-- keyword end -->
+  
+      <!-- website rank single data -->
+      <div class="x_panel">
+        <div class="container">
+          <div class="x_title">
+            <h2>Website Ranking</h2>
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+            <div class="row tile_count" id="u_singleRanking">
+            </div>
+          </div>
+        </div>
+      </div>      
+      <!-- website rank end-->
+        
+      <!-- website rank multi data-->      
+      <div class="container" id="multi_ranking">
+          <div class="x_panel">            
+            <div class="x_content">
+              <div id="ranks_chart"  style="height: 370px; width: 100%;"></div>
+            </div>
+          </div>
+      </div>
+      <!-- website rank end   -->
+
+    </div>
+    
+    <!-- Bootstrap -->
+    <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- ECharts -->
+    <script src="../vendors/echarts/dist/echarts.min.js"></script>
+    <script src="../vendors/echarts/map/js/world.js"></script>
+    <!-- Canvas.js -->
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <!-- Custom Theme Scripts -->
+    
+
+  </body>
+
+</html>
